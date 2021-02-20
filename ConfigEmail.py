@@ -11,9 +11,9 @@ from_address = "853573584@qq.com"  # 用户名
 mail_pass = "xkoxcpyswmyubcie"  # 口令
 
 '''调试模式'''
-to_address = ['gaoaolei@qimao.com']
+# to_address = ['gaoaolei@qimao.com']
 '''正是模式'''
-# to_address = ['gaoaolei@qimao.com', 'zhuguixin@qimao.com', 'shenyufan@qimao.com']
+to_address = ['gaoaolei@qimao.com', 'zhuguixin@qimao.com', 'shenyufan@qimao.com']
 
 
 def send_mail(content):
