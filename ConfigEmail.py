@@ -12,7 +12,7 @@ mail_pass = "xkoxcpyswmyubcie"  # 口令
 
 '''调试模式'''
 # to_address = ['gaoaolei@qimao.com']
-'''正是模式'''
+'''正式模式'''
 to_address = ['gaoaolei@qimao.com', 'zhuguixin@qimao.com', 'shenyufan@qimao.com']
 
 
