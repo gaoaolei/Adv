@@ -8,7 +8,7 @@ from GetAPIData import *
 # import time
 import warnings
 
-xls = ReadExcel().get_xls('user_data.xlsx', 'Regression')
+xls = ReadExcel().get_xls('user_data.xlsx', 'PageUpDown')
 area_config_id = 44
 url = "https://api-ks.wtzw.com/api/v1/reader-adv"
 

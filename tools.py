@@ -5,6 +5,7 @@ import json
 from OperateDatabase import MysqlData
 import GetPath
 
+
 def get_md5(s):
     """
     md5加密字符串
@@ -90,7 +91,7 @@ def exec_cmd(cmd):
     return res
 
 
-def get_headers(net_env,channel,sys_ver,device_id,platform,app_version):
+def get_headers(net_env, channel, sys_ver, device_id, platform, app_version):
     headers = '''
 net-env: {netenv}
 channel: {channel}
@@ -120,10 +121,13 @@ User-Agent: webviewversion/40100
 Connection: Keep-Alive
 Accept-Encoding: gzip
 If-Modified-Since: Fri, 03 Apr 2020 12:46:31 GMT
-'''.format(netenv=net_env,channel=channel,sysver=sys_ver,deviceid=device_id,platform=platform,appversion=app_version)
+'''.format(netenv=net_env, channel=channel, sysver=sys_ver, deviceid=device_id, platform=platform,
+           appversion=app_version)
 
     # 需要验证的header
-    need_check_header = ['uuid', 'imei', 'platform', 'device-id', 'app-version', 'application-id', 'mac', 'client-id', 'brand', 'model', 'sys-ver', 'AUTHORIZATION', 'channel','wlb-imei','reg','Authorization','is-white','hardware-id','trusted-id','oaid','wlb-uid','net-env']
+    need_check_header = ['uuid', 'imei', 'platform', 'device-id', 'app-version', 'application-id', 'mac', 'client-id',
+                         'brand', 'model', 'sys-ver', 'AUTHORIZATION', 'channel', 'wlb-imei', 'reg', 'Authorization',
+                         'is-white', 'hardware-id', 'trusted-id', 'oaid', 'wlb-uid', 'net-env']
 
     headers = get_dict_from_kv(headers, '\n')
 
@@ -146,19 +150,21 @@ If-Modified-Since: Fri, 03 Apr 2020 12:46:31 GMT
 def get_user_area(device_id):
     result = get_md5(device_id)
     result = result[-2:]
-    user_area = int(result,16)
+    user_area = int(result, 16)
     return user_area
 
+
 # 根据app_versoin获取min_app_version
-def get_min_app_version(app_version,area_config_id,platform):
-    sql = 'select min_app_version from adv_version where area_config_id=%s and platform=%s and app_type=0' %(area_config_id,platform)
+def get_min_app_version(app_version, area_config_id, platform):
+    sql = 'select min_app_version from adv_version where area_config_id=%s and platform=%s and app_type=0' % (
+        area_config_id, platform)
     mysql = MysqlData()
     data = mysql.getdata(sql)
     min_app_version_list = []
     for i in data:
         min_app_version_list.append(i[0])
     min_app_version_list_tmp = sorted(min_app_version_list, reverse=True)
-    min_app_version = 0 # 默认值
+    min_app_version = 0  # 默认值
     for j in min_app_version_list_tmp:
         if app_version >= j:
             min_app_version = j
@@ -166,14 +172,13 @@ def get_min_app_version(app_version,area_config_id,platform):
     return min_app_version
 
 
-def get_abgroup_data(device_id,area_config_id,platform,app_version):
-
+def get_abgroup_data(device_id, area_config_id, platform, app_version):
     user_area = get_user_area(device_id)
-    min_app_version = get_min_app_version(app_version,area_config_id,platform)
+    min_app_version = get_min_app_version(app_version, area_config_id, platform)
     sql = "SELECT * FROM adv_ab WHERE area_config_id=%s AND platform=%s AND STATUS=0 AND \
-    start_at<UNIX_TIMESTAMP(NOW())AND min_app_version=%s " %(area_config_id,platform,min_app_version)
+    start_at<UNIX_TIMESTAMP(NOW())AND min_app_version=%s " % (area_config_id, platform, min_app_version)
     mysql = MysqlData()
-    data = mysql.getdata(sql)   # 最多一条数据
+    data = mysql.getdata(sql)  # 最多一条数据
 
     # 参数默认值
     ab_data = {
@@ -206,24 +211,25 @@ def get_abgroup_data(device_id,area_config_id,platform,app_version):
 
     if data != []:
         i = 0
-        groups = json.loads(data[0][6])
+        groups = json.loads(data[0][7])
         for group in groups:
             if str(user_area) in group['user_area'].split(','):
                 ab_data['id'] = data[0][0]
                 ab_data['plan_name'] = data[0][1]
-                #ab_data['platform'] = data[0][2]
-                #ab_data['area_config_id'] = data[0][3]
-                #ab_data['min_app_version'] = data[0][4]
-                ab_data['max_app_version'] = data[0][5]
-                ab_data['groups'] = data[0][6]
-                ab_data['start_at'] = data[0][7]
-                ab_data['end_at'] = data[0][8]
-                ab_data['remark'] = data[0][9]
-                ab_data['conclusion'] = data[0][10]
-                ab_data['statistical_code'] = data[0][11]
-                ab_data['status'] = data[0][12]
-                ab_data['updated_at'] = data[0][13]
-                ab_data['created_at'] = data[0][14]
+                ab_data['plan_key'] = data[0][2]
+                # ab_data['platform'] = data[0][3]
+                # ab_data['area_config_id'] = data[0][4]
+                # ab_data['min_app_version'] = data[0][5]
+                ab_data['max_app_version'] = data[0][6]
+                ab_data['groups'] = data[0][7]
+                ab_data['start_at'] = data[0][8]
+                ab_data['end_at'] = data[0][9]
+                ab_data['remark'] = data[0][10]
+                ab_data['conclusion'] = data[0][11]
+                ab_data['statistical_code'] = data[0][12]
+                ab_data['status'] = data[0][13]
+                ab_data['updated_at'] = data[0][14]
+                ab_data['created_at'] = data[0][15]
 
                 ab_data['group_id'] = groups[i]['group_id']
                 ab_data['group_name'] = groups[i]['group_name']
@@ -278,7 +284,7 @@ def get_abgroup_data(device_id,area_config_id,platform,app_version):
 
 # 最终的查询adv表的sql语句
 def sql(device_id, area_config_id, platform, app_version):
-    ab_data = get_abgroup_data(device_id,area_config_id,platform,app_version)
+    ab_data = get_abgroup_data(device_id, area_config_id, platform, app_version)
     sql = "SELECT * FROM adv WHERE app_type=0 and area_config_id=%s AND platform=%s AND STATUS=1 AND min_app_version=%s AND ab_group_id=%s AND adv_code !=''"
     # ab['group_id']=''时，sql会是AND ab_group_id= AND adv_code !=''，会报错，改成用sql，params的形式
     params = [area_config_id, platform, ab_data['min_app_version'], ab_data['group_id']]
@@ -308,6 +314,7 @@ def channel_filter(allow_channel, deny_channel, channel):
         if channel in d:
             flag = True
     return flag
+
 
 # 大屏蔽
 
@@ -350,10 +357,8 @@ def write_result(content):
     with open(resultFile, 'a', encoding='utf-8') as f:
         f.write(content)
 
+
 if __name__ == '__main__':
     # a = get_headers(1,'unknown', 9, '20190712141352c5590aeffbbec19d7b474f3958f971c8018c311326c075ea', 'android', 40100)
     # print(a)
-    zhangnei_form_type(40200,30,1)
-
-
-
+    zhangnei_form_type(40200, 30, 1)

@@ -1,5 +1,4 @@
 BookDownload.py
-# CheckCode.py
 FloatAdvAndroid.py
 GetEncourageVideo.py
 GetGoldVideo0.py
