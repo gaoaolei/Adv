@@ -41,7 +41,7 @@ class TestBookDownload(unittest.TestCase):
         self.assertTrue(self.api_data['data']['link'].endswith('zip'))
 
     def test_null_list(self):
-        self.assertNotEqual(self.api_data['data']['list'], [])
+        self.assertEqual(self.api_data['data']['list'], [])
 
     def tearDown(self):
         print('测试结束')
