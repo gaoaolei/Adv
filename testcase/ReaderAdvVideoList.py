@@ -14,7 +14,7 @@ url = "https://api-ks.wtzw.com/api/v1/reader-adv"
 
 
 @paramunittest.parametrized(*xls)
-class TestAdvvideoList(unittest.TestCase):
+class TestAdvVideoList(unittest.TestCase):
     def setParameters(self, order, platform, app_version, channel, device_id, net_env, sys_ver):
         """excel见了整数，小数就是float，其他大致都是str"""
         self.order = int(order)
