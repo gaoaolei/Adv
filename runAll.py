@@ -54,7 +54,7 @@ class AllTest(object):
                         ConfigEmail.send_mail(content)
                         break
         else:
-            print("报告不存在")
+            print("报告不存在，请检查原因")
 
         # self.path = os.path.join(GetPath.get_Path(), r'result\result.txt')
         # if os.path.exists(self.path):
