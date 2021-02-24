@@ -1,14 +1,14 @@
-BookDownload.py
-FloatAdvAndroid.py
-GetEncourageVideo.py
-GetGoldVideo0.py
-GetGoldVideo1.py
-GetLuckyDrawVideo.py
-GetSignVideo.py
-InitAdv.py
-ReaderAdvList2.py
-ReaderAdvList4.py
-ReaderAdvList6.py
-ReaderAdvVideoList.py
+#BookDownload.py
+#FloatAdvAndroid.py
+#GetEncourageVideo.py
+#GetGoldVideo0.py
+#GetGoldVideo1.py
+#GetLuckyDrawVideo.py
+#GetSignVideo.py
+#InitAdv.py
+#ReaderAdvList2.py
+#ReaderAdvList4.py
+#ReaderAdvList6.py
+#ReaderAdvVideoList.py
 VoiceAdv.py
 
